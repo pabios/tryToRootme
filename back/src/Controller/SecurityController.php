@@ -2,12 +2,15 @@
 namespace Pabiosoft\Controller;
 class SecurityController{
 
+
+
     public  function render($response){
         header("Access-Control-Allow-Headers: Authorization, Content-Type");
         header("Access-Control-Allow-Origin : *");
         header('Content-Type: application/json' );
-
-
+        if(empty($response)){
+            return [];
+        }
         echo json_encode($response,JSON_PRETTY_PRINT);
     }
 
@@ -75,6 +78,13 @@ class SecurityController{
         }
 
     }
+    public  function addHeader()
+    {
+        header("Access-Control-Allow-Headers: Authorization, Content-Type");
+        header("Access-Control-Allow-Origin : *");
+        header('Content-Type: application/json' );
+    }
+
 
 
 }
