@@ -11,6 +11,10 @@ class ComposerStaticInitddb32e982ef0102e63c991eec20362dd
     );
 
     public static $prefixLengthsPsr4 = array (
+        'P' => 
+        array (
+            'Pabiosoft\\' => 10,
+        ),
         'F' => 
         array (
             'FastRoute\\' => 10,
@@ -18,6 +22,10 @@ class ComposerStaticInitddb32e982ef0102e63c991eec20362dd
     );
 
     public static $prefixDirsPsr4 = array (
+        'Pabiosoft\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/src',
+        ),
         'FastRoute\\' => 
         array (
             0 => __DIR__ . '/..' . '/nikic/fast-route/src',
