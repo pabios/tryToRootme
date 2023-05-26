@@ -57,17 +57,20 @@ class  UserRepository  extends Manager{
     public function checkExistedUser(string $pseudoSecured, string $passwordSecuredReversed)
     {
         $db = $this->dbConnect();
-        $req = $db->prepare('SELECT pseudo,password FROM user WHERE pseudo=:pseudo AND password=:password LIMIT 1');
+        $req = $db->prepare('SELECT id,role,description pseudo,password FROM user WHERE pseudo=:pseudo AND password=:password LIMIT 1');
         $req->bindValue('pseudo',$pseudoSecured,\PDO::PARAM_STR);
         $req->bindValue('password',$passwordSecuredReversed,\PDO::PARAM_STR);
         $req->execute();
 
-        //$response = $req->fetch();
+        $response = $req->fetch();
 
 
 
-        return  ($req->rowCount() ===1);
+//        return  ($req->rowCount() ===1);
+        return $response;
     }
+
+
 
 
 }

@@ -1,6 +1,7 @@
 <?php
 namespace Pabiosoft\Controller;
 
+use http\Cookie;
 use Pabiosoft\Controller\SecurityController;
 use \Pabiosoft\Entity\User;
 use \Pabiosoft\Repository\UserRepository;
@@ -108,9 +109,8 @@ class UserController
 
 
     public  function login(){
-
-
         $security = new SecurityController();
+        $security->addHeader();
         $response = '';
 
         if (!empty($_POST)){
@@ -127,8 +127,13 @@ class UserController
                    $userRepo = new UserRepository();
                    $rep = $userRepo->checkExistedUser($pseudo,$h);
 
-                   if($rep === true){
-                       $response = ' login succes';
+                   if(!empty($rep['id'])){
+                      $roleUser = json_decode($this->getUserById(intval($rep['id']),true)) ;
+
+                        $security->render($roleUser);
+
+                      // $response = 'login succes';
+
                    }else{
                        $response = 'pseudo ou mot de passe erreur';
                    }
@@ -157,12 +162,13 @@ class UserController
         $security->render($response);
     }
 
-    public  function getUserById($id){
+    public  function getUserById($id,$role=false){
 
 
         $userRepo = new UserRepository();
         $security = new SecurityController();
         $id = $security->secureInt($id);
+        $security->addHeader();
         $rep = $userRepo->find($id);
 
         if($rep === 0){
@@ -179,8 +185,12 @@ class UserController
 
         $response = (object) $final;
 
-
+        if($role){
+            return json_encode($final['role'],JSON_PRETTY_PRINT);
+        }
         $security->render($response);
+
+
     }
 
 }

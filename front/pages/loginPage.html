@@ -7,11 +7,31 @@
 <body>
   <h1>connectez-vous</h1>
 
-  <form action="login.php" method="post">
-    <input type="text" name="username" placeholder="Nom d'utilisateur">
-    <input type="password" name="password" placeholder="Mot de passe">
-    <input type="submit" value="Connexion">
+  <form action="" method="post" id="loginform">
+    <input type="text" name="pseudo" id="pseudo" placeholder="Nom d'utilisateur"/>
+    <input type="password" name="password" id="password" placeholder="Mot de passe"/>
+    <input type="submit" value="Une fois pour connection puis 2 fois pour voir " id="login" class="apiGet">
   </form>
-  
+
+
+
+  <div class="get__item">
+    <h1> Api get  php js</h1>
+    <h3>   le  Tableau des users s'affiche si la connection reussi</h3>
+    <a href="#" id="apiGet">Voir les users</a>
+    <table border="1" class="resultat">
+      <tr>
+        <th>id</th>
+        <th>pseudo</th>
+        <td>description</th>
+        <td>role</th>
+        <td>action</th>
+      </tr>
+    </table>
+  </div>
+
+
+
+  <script src="../js/user.js"></script>
 </body>
 </html>
