@@ -6,5 +6,6 @@ $vendorDir = dirname(__DIR__);
 $baseDir = dirname($vendorDir);
 
 return array(
+    'Pabiosoft\\' => array($baseDir . '/src'),
     'FastRoute\\' => array($vendorDir . '/nikic/fast-route/src'),
 );

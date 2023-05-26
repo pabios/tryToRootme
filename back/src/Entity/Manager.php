@@ -1,4 +1,6 @@
 <?php
+namespace Pabiosoft\Entity;
+
 class Manager
 {
     private $db;
@@ -6,7 +8,7 @@ class Manager
     protected function dbConnect()
     {
         try{
-            $this->db = new \PDO('mysql:host=localhost;dbname=rootme;charset=utf8', 'root', 'pass');
+            $this->db = new \PDO('mysql:host=localhost;dbname=secu;charset=utf8', 'root', 'pass');
             return $this->db;
         }catch(\Exception $e){
             echo ' impossible de se connecter';
