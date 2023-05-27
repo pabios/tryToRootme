@@ -13,18 +13,28 @@ class ComposerStaticInitddb32e982ef0102e63c991eec20362dd
     public static $prefixLengthsPsr4 = array (
         'P' => 
         array (
+            'Pabiosoft\\App\\Config\\' => 21,
             'Pabiosoft\\' => 10,
         ),
         'F' => 
         array (
+            'Firebase\\JWT\\' => 13,
             'FastRoute\\' => 10,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
+        'Pabiosoft\\App\\Config\\' => 
+        array (
+            0 => __DIR__ . '/../..' . '/config',
+        ),
         'Pabiosoft\\' => 
         array (
             0 => __DIR__ . '/../..' . '/src',
+        ),
+        'Firebase\\JWT\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/firebase/php-jwt/src',
         ),
         'FastRoute\\' => 
         array (

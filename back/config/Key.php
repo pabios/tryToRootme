@@ -7,6 +7,7 @@ class Key
     private static $config = [
         'SECRET_KEY' => 'your_secret_key',
         'DB_HOST' => 'localhost',
+        'DB_NAME' => 'secu',
         'DB_USERNAME' => 'pabios',
         'DB_PASSWORD' => 'pass',
     ];
@@ -19,6 +20,10 @@ class Key
     public static function getDbHost()
     {
         return self::$config['DB_HOST'];
+    }
+    public static function getDbName()
+    {
+        return self::$config['DB_NAME'];
     }
 
     public static function getDbUsername()

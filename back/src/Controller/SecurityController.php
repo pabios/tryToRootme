@@ -9,15 +9,16 @@ class SecurityController{
 
     public  function generateToken(array  $payload){
 
-        $key = Key::getSecretKey();
+        $key = new Key();
+        $key = $key::getSecretKey();
 
         $token = JWT::encode($payload, $key, 'HS256');
 
-        var_dump($key);
 
         session_start();
         $_SESSION['token'] = $token;
         header('Authorization: Bearer ' . $token);
+        return json_encode($token,JSON_PRETTY_PRINT);
     }
 
     public  function  checkExistedToken(){
@@ -33,12 +34,16 @@ class SecurityController{
 
 
 
-    public  function render($response){
+    public  function render($response,$arg = null){
         header("Access-Control-Allow-Headers: Authorization, Content-Type");
         header("Access-Control-Allow-Origin : *");
         header('Content-Type: application/json' );
         if(empty($response)){
             return [];
+        }
+
+        if(!empty($arg)){
+            $response = [$response,$arg];
         }
         echo json_encode($response,JSON_PRETTY_PRINT);
     }

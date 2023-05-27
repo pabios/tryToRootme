@@ -165,10 +165,10 @@ class UserController
                                     "role" => $roleUser,
                                     "id"  => $rep['id']
                                 );
-                        $security->generateToken($payload);
+                        $tokenGenated= $security->generateToken($payload);
 
 
-                        $security->render($roleUser);
+                        $security->render($roleUser,$tokenGenated);
                       // $response = 'login succes';
 
                    }else{
