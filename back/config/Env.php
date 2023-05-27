@@ -2,10 +2,13 @@
 
 namespace Pabiosoft\App\Config;
 
-class Key
+class Env
 {
     private static $config = [
-        'SECRET_KEY' => 'your_secret_key',
+        'SECRET_KEY' => [
+            'key' => '8c4d00f041c970d8fcb4a562b078e3d1efa40736b7ac2372683592242e186951',
+            'algo' => 'HS256',
+        ],
         'DB_HOST' => 'localhost',
         'DB_NAME' => 'secu',
         'DB_USERNAME' => 'pabios',
@@ -14,7 +17,7 @@ class Key
 
     public static function getSecretKey()
     {
-        return self::$config['SECRET_KEY'];
+        return self::$config['SECRET_KEY']['key'];
     }
 
     public static function getDbHost()

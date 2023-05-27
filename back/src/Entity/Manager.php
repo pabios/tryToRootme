@@ -1,6 +1,6 @@
 <?php
 namespace Pabiosoft\Entity;
-use Pabiosoft\App\Config\Key;
+use Pabiosoft\App\Config\Env;
 
 class Manager
 {
@@ -13,7 +13,7 @@ class Manager
 
     public  function  __construct()
     {
-        $key = new Key();
+        $key = new Env();
         $this->host = $key::getDbHost();
         $this->password = $key::getDbPassword();
         $this->user = $key::getDbUsername();

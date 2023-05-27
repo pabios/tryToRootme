@@ -9,7 +9,7 @@
 # API 
 
 ```
-php -S localhost:9000
+php -S localhost:8000
 ```
 
 
@@ -19,13 +19,14 @@ methode = POST
 
 http://localhost:80/api/signup
 http://localhost:80/api/signin
-http://localhost:80/api/delete
 
 
 methode = GET
 
 http://localhost:80/api/users
-http://localhost:80/api/user/1
+http://localhost:80/api/user/{id:\d+}
+http://localhost:80/api/delete
+
 
 ```
 

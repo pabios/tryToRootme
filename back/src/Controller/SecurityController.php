@@ -1,7 +1,7 @@
 <?php
 namespace Pabiosoft\Controller;
 use \Firebase\JWT\JWT;
-use Pabiosoft\App\Config\Key;
+use Pabiosoft\App\Config\Env;
 
 
 class SecurityController{
@@ -9,7 +9,7 @@ class SecurityController{
 
     public  function generateToken(array  $payload){
 
-        $key = new Key();
+        $key = new Env();
         $key = $key::getSecretKey();
 
         $token = JWT::encode($payload, $key, 'HS256');
@@ -28,6 +28,8 @@ class SecurityController{
         if (isset($headers['Authorization'])) {
             $authorizationHeader = $headers['Authorization'];
             $token = substr($authorizationHeader, 7); // Supprimer le préfixe "Bearer "
+            var_dump($token);
+
         }
         return $token;
     }
