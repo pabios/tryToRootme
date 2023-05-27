@@ -1,15 +1,49 @@
 <?php
 namespace Pabiosoft\Controller;
+use \Firebase\JWT\JWT;
+use Pabiosoft\App\Config\Key;
+
+
 class SecurityController{
 
 
+    public  function generateToken(array  $payload){
 
-    public  function render($response){
+        $key = new Key();
+        $key = $key::getSecretKey();
+
+        $token = JWT::encode($payload, $key, 'HS256');
+
+
+        session_start();
+        $_SESSION['token'] = $token;
+        header('Authorization: Bearer ' . $token);
+        return json_encode($token,JSON_PRETTY_PRINT);
+    }
+
+    public  function  checkExistedToken(){
+        $token = null;
+        $headers = apache_request_headers();
+
+        if (isset($headers['Authorization'])) {
+            $authorizationHeader = $headers['Authorization'];
+            $token = substr($authorizationHeader, 7); // Supprimer le préfixe "Bearer "
+        }
+        return $token;
+    }
+
+
+
+    public  function render($response,$arg = null){
         header("Access-Control-Allow-Headers: Authorization, Content-Type");
         header("Access-Control-Allow-Origin : *");
         header('Content-Type: application/json' );
         if(empty($response)){
             return [];
+        }
+
+        if(!empty($arg)){
+            $response = [$response,$arg];
         }
         echo json_encode($response,JSON_PRETTY_PRINT);
     }
