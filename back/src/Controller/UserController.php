@@ -6,7 +6,8 @@ use http\Cookie;
 use Pabiosoft\Controller\SecurityController;
 use \Pabiosoft\Entity\User;
 use \Pabiosoft\Repository\UserRepository;
-use Pabiosoft\App\Config\Key;
+use Pabiosoft\App\Config\Env;
+use Firebase\JWT\Key;
 
 class UserController
 {
@@ -28,18 +29,22 @@ class UserController
             return;
         }
 
+
+
         try {
-            $key = Key::getSecretKey();
-            $decodedToken = JWT::decode($token, $key, ['HS256']);
+            $key = Env::getSecretKey();
+
+            $decodedToken = JWT::decode($token, new Key($key, 'HS256'));
+
 
             $pseudo = $decodedToken->pseudo;
             $exp = $decodedToken->exp;
             $role = $decodedToken->role;
             $id = $decodedToken->id;
 
+            $userData = json_decode($this->getUserById($id,true)); // renvoit son role
 
-            $userData = $this->getUserById($id,true);
-            if($userData !== $role){
+            if($userData !==  $role){
                 echo json_encode("Token incompatible", JSON_PRETTY_PRINT);
                 return;
             }
