@@ -1,10 +1,12 @@
 <?php
 namespace Pabiosoft\Controller;
 
+use Firebase\JWT\JWT;
 use http\Cookie;
 use Pabiosoft\Controller\SecurityController;
 use \Pabiosoft\Entity\User;
 use \Pabiosoft\Repository\UserRepository;
+use Pabiosoft\App\Config\Key;
 
 class UserController
 {
@@ -19,30 +21,57 @@ class UserController
 
         $security = new SecurityController();
 
+        $token = $security->checkExistedToken();
 
-        $response = [];
-        foreach($user as $all ){
-            $response[] = $all;
+        if(empty($token)){
+            echo json_encode("aucun token envoyer",JSON_PRETTY_PRINT);
+            return;
         }
 
-        $responses = [];
-        $i = 0;
-        while ($i != count($response)){
-            $responses[] = array(
-                "id"=> $response[$i]["id"],
-                "pseudo"=> $response[$i]["pseudo"],
-                "age"=> $response[$i]["age"],
-                "description"=> $response[$i]["description"],
-                "photo"=> $response[$i]["photo"],
-                "role"=> $response[$i]["role"],
-            );
-            $i++;
+        try {
+            $key = Key::getSecretKey();
+            $decodedToken = JWT::decode($token, $key, ['HS256']);
+
+            $pseudo = $decodedToken->pseudo;
+            $exp = $decodedToken->exp;
+            $role = $decodedToken->role;
+            $id = $decodedToken->id;
+
+
+            $userData = $this->getUserById($id,true);
+            if($userData !== $role){
+                echo json_encode("Token incompatible", JSON_PRETTY_PRINT);
+                return;
+            }
+
+
+
+            $response = [];
+            foreach($user as $all ){
+                $response[] = $all;
+            }
+
+            $responses = [];
+            $i = 0;
+            while ($i != count($response)){
+                $responses[] = array(
+                    "id"=> $response[$i]["id"],
+                    "pseudo"=> $response[$i]["pseudo"],
+                    "age"=> $response[$i]["age"],
+                    "description"=> $response[$i]["description"],
+                    "photo"=> $response[$i]["photo"],
+                    "role"=> $response[$i]["role"],
+                );
+                $i++;
+            }
+
+            //$final = '[{"id": "1","pseudo":"toto",..}]';
+            $security->render($responses);
+
+        } catch (\Exception $e) {
+            echo json_encode("Token invalide", JSON_PRETTY_PRINT);
+            return;
         }
-
-        //$final = '[{"id": "1","pseudo":"toto",..}]';
-
-
-        $security->render($responses);
     }
 
 
@@ -130,8 +159,16 @@ class UserController
                    if(!empty($rep['id'])){
                       $roleUser = json_decode($this->getUserById(intval($rep['id']),true)) ;
 
-                        $security->render($roleUser);
+                       $payload = array(
+                                    "pseudo" => $pseudo,
+                                    "exp" => time() + 3600, //   dans 1 heure
+                                    "role" => $roleUser,
+                                    "id"  => $rep['id']
+                                );
+                        $security->generateToken($payload);
 
+
+                        $security->render($roleUser);
                       // $response = 'login succes';
 
                    }else{
